@@ -1,0 +1,121 @@
+
+
+
+Watson Assistant-Asset
+
+https://www.cdc.gov/coronavirus/2019-ncov/faq.html
+
+
+API key:
+o76JGGNsgDZA1b7dyvWO1EOAlyONV3jEzr48H_C9nnAQ
+apikey = 'o76JGGNsgDZA1b7dyvWO1EOAlyONV3jEzr48H_C9nnAQ'
+
+URL:
+https://api.eu-de.assistant.watson.cloud.ibm.com/instances/1c9f2201-10eb-4932-b26c-38337efbdddd
+https://api.eu-de.assistant.watson.cloud.ibm.com/instances/1c9f2201-10eb-4932-b26c-38337efbdddd
+
+Deafult
+url = https://api.eu-de.assistant.watson.cloud.ibm.com
+
+
+from ibm_watson import AssistantV2
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+
+authenticator = IAMAuthenticator('{apikey}')
+assistant = AssistantV2(
+    version='{version}',
+    authenticator=authenticator
+)
+
+assistant.set_service_url('{url}')
+version = '2020-04-01'
+
+
+
+Watson Discovery:
+# Discovery
+apikey = "TkQ4fyTXQgrc0lCBBGkX8j-QSZgBOB8_Gn7PG2_Nb1pG"
+url = "https://api.eu-de.discovery.watson.cloud.ibm.com/instances/3ebf8d3f-6ef1-4997-a8ae-6ca089d5458f"
+
+curl -X POST -u "apikey:TkQ4fyTXQgrc0lCBBGkX8j-QSZgBOB8_Gn7PG2_Nb1pG" \
+-H "Content-Type: application/json" \
+"https://api.eu-de.discovery.watson.cloud.ibm.com/instances/3ebf8d3f-6ef1-4997-a8ae-6ca089d5458f/v1/environments?version=2019-04-30"
+
+curl -u "apikey:{apikey}" "{url}/v1/environments/{environment_id}?version=2019-04-30"
+
+
+
+NLU:
+
+API Key:
+G0-uQQFdYKp7SU0jPuhVf2NL7gcn93ggr-MRyMT31Rmj
+
+URL:
+https://api.eu-de.natural-language-understanding.watson.cloud.ibm.com/instances/9cbc4d99-7102-4814-ad4a-64a7de91502e
+
+
+import json
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson.natural_language_understanding_v1
+    import Features, CategoriesOptions
+
+authenticator = IAMAuthenticator('{apikey}')
+natural_language_understanding = NaturalLanguageUnderstandingV1(
+    version='2019-07-12',
+    authenticator=authenticator
+)
+
+natural_language_understanding.set_service_url('{url}')
+
+response = natural_language_understanding.analyze(
+    url='https://www.cdc.gov/coronavirus/2019-ncov/faq.html',
+    features=Features(categories=CategoriesOptions(limit=3))).get_result()
+
+print(json.dumps(response, indent=2))
+
+
+import json
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson.natural_language_understanding_v1 
+    import Features, EntitiesOptions, KeywordsOptions
+
+authenticator = IAMAuthenticator('{apikey}')
+natural_language_understanding = NaturalLanguageUnderstandingV1(
+    version='2019-07-12',
+    authenticator=authenticator)
+
+natural_language_understanding.set_service_url('{url}')
+
+response = natural_language_understanding.analyze(
+    text='IBM is an American multinational technology company '
+    'headquartered in Armonk, New York, United States, '
+    'with operations in over 170 countries.',
+    features=Features(
+        entities=EntitiesOptions(emotion=True, sentiment=True, limit=2),
+        keywords=KeywordsOptions(emotion=True, sentiment=True,
+                                 limit=2))).get_result()
+
+print(json.dumps(response, indent=2))
+
+
+
+---- 
+
+curl -X POST -u "apikey:{apikey}" \
+--header "Content-Type: application/json" \
+--data '{
+  "url": "http://newsroom.ibm.com/Guerbet-and-IBM-Watson-Health-Announce-Strategic-Partnership-for-Artificial-Intelligence-in-Medical-Imaging-Liver",
+  "features": {
+    "sentiment": {},
+    "categories": {},
+    "concepts": {},
+    "entities": {},
+    "keywords": {}
+  }
+}' \
+"{url}/v1/analyze?version=2019-07-12"
+
+
+https://www.cdc.gov/coronavirus/2019-ncov/faq.html
